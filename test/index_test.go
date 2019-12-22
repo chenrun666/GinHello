@@ -2,14 +2,21 @@ package test
 
 import (
 	"GinHello/initRouter"
+	"github.com/gin-gonic/gin"
 	"github.com/magiconair/properties/assert"
 	"net/http"
 	"net/http/httptest"
 	"testing"
 )
 
+var router *gin.Engine
+
+func init() {
+	gin.SetMode(gin.TestMode)
+	router = initRouter.SetupRouter()
+}
+
 func TestIndexGetRouter(t *testing.T) {
-	router := initRouter.SetupRouter()
 	w := httptest.NewRecorder()
 	req := httptest.NewRequest(http.MethodGet, "/", nil)
 	router.ServeHTTP(w, req)
@@ -18,7 +25,6 @@ func TestIndexGetRouter(t *testing.T) {
 }
 
 func TestIndexPostRouter(t *testing.T) {
-	router := initRouter.SetupRouter()
 	w := httptest.NewRecorder()
 	req := httptest.NewRequest(http.MethodPost, "/", nil)
 	router.ServeHTTP(w, req)
@@ -27,7 +33,6 @@ func TestIndexPostRouter(t *testing.T) {
 }
 
 func TestIndexPutRouter(t *testing.T) {
-	router := initRouter.SetupRouter()
 	w := httptest.NewRecorder()
 	req := httptest.NewRequest(http.MethodPut, "/", nil)
 	router.ServeHTTP(w, req)
@@ -36,7 +41,6 @@ func TestIndexPutRouter(t *testing.T) {
 }
 
 func TestIndexDeleteRouter(t *testing.T) {
-	router := initRouter.SetupRouter()
 	w := httptest.NewRecorder()
 	req := httptest.NewRequest(http.MethodDelete, "/", nil)
 	router.ServeHTTP(w, req)
@@ -45,7 +49,6 @@ func TestIndexDeleteRouter(t *testing.T) {
 }
 
 func TestIndexHeadRouter(t *testing.T) {
-	router := initRouter.SetupRouter()
 	w := httptest.NewRecorder()
 	req := httptest.NewRequest(http.MethodHead, "/", nil)
 	router.ServeHTTP(w, req)
@@ -54,7 +57,6 @@ func TestIndexHeadRouter(t *testing.T) {
 }
 
 func TestIndexOptionsRouter(t *testing.T) {
-	router := initRouter.SetupRouter()
 	w := httptest.NewRecorder()
 	req := httptest.NewRequest(http.MethodOptions, "/", nil)
 	router.ServeHTTP(w, req)
