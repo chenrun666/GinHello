@@ -32,6 +32,7 @@ func SetupRouter() *gin.Engine {
 	{
 		userRouter.GET("", handler.UserSaveByQuery)
 		userRouter.GET("/:name", handler.UserSave)
+		userRouter.POST("/register", handler.UserRegister)
 	}
 
 	// Index
@@ -39,5 +40,6 @@ func SetupRouter() *gin.Engine {
 	{
 		indexRouter.GET("", handler.IndexHandler)
 	}
+
 	return router
 }

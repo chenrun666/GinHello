@@ -2,9 +2,12 @@ package test
 
 import (
 	"GinHello/initRouter"
+	"bytes"
 	"github.com/magiconair/properties/assert"
+	"log"
 	"net/http"
 	"net/http/httptest"
+	"net/url"
 	"strconv"
 	"testing"
 )
@@ -28,4 +31,30 @@ func TestUserSaveByQuery(t *testing.T) {
 	router.ServeHTTP(w, req)
 	assert.Equal(t, http.StatusOK, w.Code)
 	assert.Equal(t, "用户: "+username+"年龄: "+strconv.Itoa(age)+"已保存", w.Body.String())
+}
+
+func TestUserPostForm(t *testing.T) {
+	value := url.Values{}
+	value.Add("email", "chenrun@163.com")
+	value.Add("password", "1234")
+	value.Add("password-again", "1234")
+	w := httptest.NewRecorder()
+	req, _ := http.NewRequest(http.MethodPost, "/user/register", bytes.NewBufferString(value.Encode()))
+	req.Header.Add("Content-Type", "application/x-www-form-urlencoded")
+	router.ServeHTTP(w, req)
+	assert.Equal(t, http.StatusOK, w.Code)
+}
+
+func TestUserPostFormEmailErrorAndPasswordError(t *testing.T) {
+	value := url.Values{}
+	value.Add("email", "chenrun@163.com")
+	value.Add("password", "1234")
+	value.Add("password-again", "1234")
+	w := httptest.NewRecorder()
+	req, _ := http.NewRequest(http.MethodPost, "/user/register", bytes.NewBufferString(value.Encode()))
+	req.Header.Add("Content-Type", "application/x-www-form-urlencoded")
+	router.ServeHTTP(w, req)
+	log.Println(w.Body.String())
+	assert.Equal(t, http.StatusOK, w.Code)
+
 }

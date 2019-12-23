@@ -1,7 +1,9 @@
 package handler
 
 import (
+	"GinHello/model"
 	"github.com/gin-gonic/gin"
+	"log"
 	"net/http"
 )
 
@@ -14,4 +16,16 @@ func UserSaveByQuery(context *gin.Context) {
 	username := context.Query("name")
 	age := context.Query("age")
 	context.String(http.StatusOK, "用户: "+username+"年龄: "+age+"已保存")
+}
+
+
+func UserRegister(context *gin.Context) {
+	var user model.UserModel
+	if err := context.ShouldBind(&user); err != nil {
+		log.Println("err -> ", err.Error())
+		context.String(http.StatusBadRequest, "输入的数据不合法")
+	} else {
+		log.Println("email", user.Email, "password", user.Password, "password again", user.PasswordAgain)
+		context.Redirect(http.StatusMovedPermanently, "/")
+	}
 }
