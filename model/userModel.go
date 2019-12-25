@@ -59,7 +59,7 @@ func (user *UserModel) Update(id int) error {
 	}
 	defer stmt.Close()
 
-	_, e = stmt.Exec(user.Password, user.Avatar, user.Id)
+	_, e = stmt.Exec(user.Password, user.Avatar.String, user.Id)
 	if e != nil {
 		log.Panicln("错误 e", e.Error())
 	}
