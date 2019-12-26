@@ -8,3 +8,11 @@ require (
 	github.com/magiconair/properties v1.8.1
 	google.golang.org/appengine v1.6.5 // indirect
 )
+
+replace (
+	GinHello/handler => ./handler
+	GinHello/initDB => ./initDB
+	GinHello/initRoute => ./initRoute
+	GinHello/middleware => ./middleware
+	GinHello/model => ./model
+)
