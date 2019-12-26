@@ -2,6 +2,7 @@ package initRouter
 
 import (
 	"GinHello/handler"
+	"GinHello/middleware"
 	"GinHello/utils"
 	"github.com/gin-gonic/gin"
 	"net/http"
@@ -14,13 +15,16 @@ func retHelloGinAndMethod(context *gin.Context) {
 
 func SetupRouter() *gin.Engine {
 	router := gin.Default()
+	//router := gin.New()
+
+	//router.Use(middleware.Logger(), gin.Recovery())
 
 	// 加载模板
 	router.LoadHTMLGlob("templates/*")
 	// 添加图标
 	// 加载静态资源
 	router.Static("/statics", "./statics")
-	router.StaticFS("/avatar", http.Dir(utils.RootPath() + "/avatar/"))
+	router.StaticFS("/avatar", http.Dir(utils.RootPath()+"/avatar/"))
 	router.StaticFile("/favicon.ico", "./favicon.ico")
 
 	// 添加路由
@@ -36,7 +40,7 @@ func SetupRouter() *gin.Engine {
 		//userRouter.GET("/:name", handler.UserSave)
 		userRouter.POST("/register", handler.UserRegister)
 		userRouter.POST("/login", handler.UserLogin)
-		userRouter.GET("/profile", handler.UserProfile)
+		userRouter.GET("/profile", middleware.Auth(), handler.UserProfile)
 		userRouter.POST("/update", handler.UpdateUserProfile)
 	}
 
