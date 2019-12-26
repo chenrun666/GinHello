@@ -103,7 +103,7 @@ func UpdateUserProfile(context *gin.Context) {
 		log.Panicln("无法保存文件", e.Error())
 	}
 
-	avatarUrl := "https://localhost:8080/avatar/" + file.Filename
+	avatarUrl := "http://localhost:8080/avatar/" + fileName
 	user.Avatar = sql.NullString{String: avatarUrl}
 
 	e = user.Update(user.Id)

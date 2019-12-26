@@ -7,6 +7,6 @@ import (
 )
 
 func TestRootPath(t *testing.T) {
-	fmt.Println(utils.RootPath())
+	fmt.Println(utils.RootPath() + "/avatar/")
 }
 

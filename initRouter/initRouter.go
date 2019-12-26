@@ -18,10 +18,10 @@ func SetupRouter() *gin.Engine {
 	// 加载模板
 	router.LoadHTMLGlob("templates/*")
 	// 添加图标
-	router.StaticFile("/favicon.ico", "./favicon.ico")
 	// 加载静态资源
 	router.Static("/statics", "./statics")
-	router.StaticFS("/avatar", http.Dir(utils.RootPath() + "avatar/"))
+	router.StaticFS("/avatar", http.Dir(utils.RootPath() + "/avatar/"))
+	router.StaticFile("/favicon.ico", "./favicon.ico")
 
 	// 添加路由
 	index := router.Group("/")
