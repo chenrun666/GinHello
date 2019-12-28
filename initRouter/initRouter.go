@@ -7,6 +7,9 @@ import (
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"strings"
+
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
 func retHelloGinAndMethod(context *gin.Context) {
@@ -56,5 +59,7 @@ func SetupRouter() *gin.Engine {
 		articleRoute.POST("/article", handler.InsertArticle)
 	}
 
+	url := ginSwagger.URL("http://localhost:8080/swagger/doc.json")
+	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler, url))
 	return router
 }

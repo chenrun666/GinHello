@@ -1,0 +1,52 @@
+definitions:
+  model.Article:
+    properties:
+      content:
+        type: string
+      id:
+        type: integer
+      type:
+        type: string
+    type: object
+  model.Result:
+    properties:
+      code:
+        example: 0
+        type: integer
+      data:
+        type: object
+      message:
+        example: 请求信息
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  license: {}
+paths:
+  /article:
+    post:
+      consumes:
+      - application/x-json-stream
+      operationId: "1"
+      parameters:
+      - description: 文章
+        in: body
+        name: article
+        required: true
+        schema:
+          $ref: '#/definitions/model.Article'
+          type: object
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Result'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/model.Result'
+      summary: 提交的文章内容
+      tags:
+      - 文章
+swagger: "2.0"
