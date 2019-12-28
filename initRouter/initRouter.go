@@ -50,5 +50,11 @@ func SetupRouter() *gin.Engine {
 		indexRouter.GET("", handler.IndexHandler)
 	}
 
+	// article route
+	articleRoute := router.Group("")
+	{
+		articleRoute.POST("/article", handler.InsertArticle)
+	}
+
 	return router
 }
