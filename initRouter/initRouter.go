@@ -2,6 +2,7 @@ package initRouter
 
 import (
 	"GinHello/handler"
+	"GinHello/handler/user"
 	"GinHello/middleware"
 	"GinHello/utils"
 	"github.com/gin-gonic/gin"
@@ -42,7 +43,7 @@ func SetupRouter() *gin.Engine {
 		userRouter.GET("", handler.UserSaveByQuery)
 		//userRouter.GET("/:name", handler.UserSave)
 		userRouter.POST("/register", handler.UserRegister)
-		userRouter.POST("/login", handler.UserLogin)
+		userRouter.POST("/login", user.CreateJwt)
 		userRouter.GET("/profile", middleware.Auth(), handler.UserProfile)
 		userRouter.POST("/update", handler.UpdateUserProfile)
 	}
