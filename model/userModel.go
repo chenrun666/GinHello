@@ -3,7 +3,6 @@ package model
 import (
 	"GinHello/initDB"
 	"database/sql"
-	"log"
 )
 
 type UserModel struct {
@@ -16,53 +15,57 @@ type UserModel struct {
 
 func (user *UserModel) Save() int64 {
 
-	result, e := initDB.Db.Exec("insert into ginhello.user (email, password) values (?,?);", user.Email, user.Password)
-	if e != nil {
-		log.Panic("user insert error", e.Error())
+	//result, e := initDB.Db.Exec("insert into ginhello.user (email, password) values (?,?);", user.Email, user.Password)
+	create := initDB.Db.Create(&user)
+	if create.Error != nil {
+		//log.Panic("user insert error", e.Error())
+		return 0
 	}
 
-	id, err := result.LastInsertId()
-	if err != nil {
-		log.Panicln("user insert id error", err.Error())
-	}
-
-	return id
+	//id, err := result.LastInsertId()
+	//if err != nil {
+	//	log.Panicln("user insert id error", err.Error())
+	//}
+	return 1
 
 }
 
 func (user *UserModel) QueryByEmail() UserModel {
 	u := UserModel{}
-	row := initDB.Db.QueryRow("select * from user where email = ?;", user.Email)
-	e := row.Scan(&u.Id, &u.Email, &u.Password, &u.Avatar)
-	if e != nil {
-		log.Panic(e)
-	}
-
+	//row := initDB.Db.QueryRow("select * from user where email = ?;", user.Email)
+	//e := row.Scan(&u.Id, &u.Email, &u.Password, &u.Avatar)
+	//if e != nil {
+	//	log.Panic(e)
+	//}
+	initDB.Db.Find(&user)
 	return u
 }
 
 func (user *UserModel) QueryById(id int) (UserModel, error) {
 	u := UserModel{}
-	row := initDB.Db.QueryRow("select * from user where id = ?;", id)
-	e := row.Scan(&u.Id, &u.Email, &u.Password, &u.Avatar)
-	if e != nil {
-		log.Panic(e)
-	}
-
-	return u, e
+	//row := initDB.Db.QueryRow("select * from user where id = ?;", id)
+	//e := row.Scan(&u.Id, &u.Email, &u.Password, &u.Avatar)
+	//if e != nil {
+	//	log.Panic(e)
+	//}
+	u.Id = id
+	initDB.Db.Find(&u)
+	return u, nil
 }
 
 func (user *UserModel) Update(id int) error {
-	var stmt, e = initDB.Db.Prepare("update user set password=?,avatar=? where id=?;")
-	if e != nil {
-		log.Panicln("发生了错误", e.Error())
-	}
-	defer stmt.Close()
-
-	_, e = stmt.Exec(user.Password, user.Avatar.String, user.Id)
-	if e != nil {
-		log.Panicln("错误 e", e.Error())
-	}
-
-	return e
+	//initDB.Db.Update()
+	//var stmt, e = initDB.Db.Prepare("update user set password=?,avatar=? where id=?;")
+	//if e != nil {
+	//	log.Panicln("发生了错误", e.Error())
+	//}
+	//defer stmt.Close()
+	//
+	//_, e = stmt.Exec(user.Password, user.Avatar.String, user.Id)
+	//if e != nil {
+	//	log.Panicln("错误 e", e.Error())
+	//}
+	//
+	//return e
+	return nil
 }
